@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ab-04-07-2024-nginx-test-1
+  template:
+    metadata:
+      labels:
+        app: ab-04-07-2024-nginx-test-1
+    spec:
+      containers:
+        - image: 'nginx:latest'
+          name: nginx
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: ab-04-07-2024-nginx-test-1
+  type: LoadBalancer
